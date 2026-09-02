@@ -110,7 +110,7 @@ class BlockySensor(CoordinatorEntity[BlockyDataUpdateCoordinator], SensorEntity)
         if not isinstance(value, (int, float)) or isinstance(value, bool):
             return None
         if self._definition.key == "cache_hit_rate":
-            return value * 100
+            return round(value * 100, 1)
         return value
 
     @property

@@ -67,6 +67,7 @@ async def test_setup_creates_entities_and_unloads(hass, enable_custom_integratio
     assert len(entities) == 13
     assert hass.states.get("switch.blocky_blocking").state == "on"
     assert hass.states.get("sensor.blocky_queries_24h").state == "10"
+    assert hass.states.get("sensor.blocky_cache_hit_rate").state == "30.0"
 
     fake_client.disable_blocking = AsyncMock()
     await hass.services.async_call(
