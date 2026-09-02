@@ -1,0 +1,131 @@
+title: Blocky
+
+views:
+  - title: Resolver
+    path: blocky
+    icon: mdi:dns
+    cards:
+      - type: markdown
+        content: |
+          # Blocky
+
+          24-hour resolver activity and blocking controls.
+
+      - type: grid
+        columns: 3
+        square: false
+        cards:
+          - type: tile
+            entity: switch.blocky_blocking
+            name: Blocking
+            icon: mdi:shield-check
+          - type: tile
+            entity: button.blocky_refresh_lists
+            name: Refresh lists
+            icon: mdi:format-list-checks
+          - type: gauge
+            entity: sensor.blocky_cache_hit_rate
+            name: Cache hit rate
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 80
+              yellow: 50
+              red: 0
+
+      - type: markdown
+        content: |
+          ## Last 24 hours
+
+      - type: grid
+        columns: 4
+        square: false
+        cards:
+          - type: tile
+            entity: sensor.blocky_queries_24h
+          - type: tile
+            entity: sensor.blocky_forwarded_queries_24h
+          - type: tile
+            entity: sensor.blocky_cached_queries_24h
+          - type: tile
+            entity: sensor.blocky_local_queries_24h
+          - type: tile
+            entity: sensor.blocky_blocked_queries_24h
+          - type: tile
+            entity: sensor.blocky_filtered_queries_24h
+          - type: tile
+            entity: sensor.blocky_errors_24h
+          - type: tile
+            entity: sensor.blocky_dropped_queries_24h
+          - type: tile
+            entity: sensor.blocky_average_response_time
+          - type: tile
+            entity: sensor.blocky_cache_entries
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: history-graph
+            title: Query activity
+            hours_to_show: 24
+            show_names: true
+            entities:
+              - entity: sensor.blocky_queries_24h
+                name: Queries
+              - entity: sensor.blocky_blocked_queries_24h
+                name: Blocked
+              - entity: sensor.blocky_cached_queries_24h
+                name: Cached
+          - type: history-graph
+            title: Cache hit rate
+            hours_to_show: 24
+            show_names: true
+            entities:
+              - entity: sensor.blocky_cache_hit_rate
+
+      - type: markdown
+        content: |
+          ## Pause blocking
+
+          Replace `YOUR_BLOCKY_CONFIG_ENTRY_ID` in the action cards below. The
+          config entry ID is visible in the Blocky integration URL in Settings.
+
+      - type: grid
+        columns: 3
+        square: false
+        cards:
+          - type: button
+            name: Pause 5 minutes
+            icon: mdi:timer-outline
+            tap_action:
+              action: perform-action
+              perform_action: blocky.disable_for_duration
+              data:
+                config_entry_id: YOUR_BLOCKY_CONFIG_ENTRY_ID
+                duration: 5m
+          - type: button
+            name: Pause 30 minutes
+            icon: mdi:timer-outline
+            tap_action:
+              action: perform-action
+              perform_action: blocky.disable_for_duration
+              data:
+                config_entry_id: YOUR_BLOCKY_CONFIG_ENTRY_ID
+                duration: 30m
+          - type: button
+            name: Pause 1 hour
+            icon: mdi:timer-outline
+            tap_action:
+              action: perform-action
+              perform_action: blocky.disable_for_duration
+              data:
+                config_entry_id: YOUR_BLOCKY_CONFIG_ENTRY_ID
+                duration: 1h
+
+      - type: markdown
+        content: |
+          The history cards show Home Assistant's history of Blocky's rolling
+          24-hour snapshots. They are not the same as Blocky's hourly
+          `perHour` buckets.

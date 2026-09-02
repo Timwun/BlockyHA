@@ -42,13 +42,42 @@ The `blocky.disable_for_duration` action accepts:
 
 ```yaml
 action: blocky.disable_for_duration
-target:
+data:
   config_entry_id: YOUR_BLOCKY_CONFIG_ENTRY_ID
   duration: 30m
   groups: ads,tracker
 ```
 
 `groups` is optional. The duration uses Blocky's Go duration syntax, such as `5m`, `1h`, or `5m30s`.
+
+## Native Lovelace dashboard
+
+The repository includes `blocky-dashboard.yaml`, a native Lovelace dashboard using only built-in Home Assistant cards. It provides:
+
+- Blocking and list-refresh controls.
+- A cache hit-rate gauge.
+- Tiles for all summary sensors.
+- History graphs for query activity and cache hit rate.
+- Fixed 5-minute, 30-minute, and 1-hour pause buttons.
+
+To use it, place `blocky-dashboard.yaml` in the Home Assistant configuration directory and register it as a YAML dashboard. For example:
+
+```yaml
+lovelace:
+  dashboards:
+    blocky-dns:
+      mode: yaml
+      title: Blocky
+      icon: mdi:dns
+      show_in_sidebar: true
+      filename: blocky-dashboard.yaml
+```
+
+or refer to https://www.home-assistant.io/dashboards/dashboards/#adding-yaml-dashboards
+
+Replace `YOUR_BLOCKY_CONFIG_ENTRY_ID` in the pause buttons. For multiple Blocky entries, use the entity IDs belonging to the desired entry and its matching config entry ID.
+
+The native dashboard intentionally does not reproduce the HTML dashboard's hourly bucket chart, response breakdown charts, or top-domain lists. Those values are dynamic API collections and are not stored as high-churn Home Assistant entity attributes. The standalone `blocky-dashboard.html` remains available when the exact Blocky dashboard is preferred.
 
 ## Troubleshooting
 
