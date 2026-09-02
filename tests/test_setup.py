@@ -42,6 +42,11 @@ async def test_setup_creates_entities_and_unloads(hass, enable_custom_integratio
     fake_client.get_status = AsyncMock(return_value={"enabled": True})
     fake_client.get_stats = AsyncMock(
         return_value={
+            "byQueryType": {"A": 7, "AAAA": 3},
+            "lists": {
+                "denylist": {"ads": 100, "tracker": 25},
+                "allowlist": {"ads": 4},
+            },
             "summary": {
                 "queries": 10,
                 "blocked": 2,
@@ -64,10 +69,21 @@ async def test_setup_creates_entities_and_unloads(hass, enable_custom_integratio
 
     entity_registry = er.async_get(hass)
     entities = er.async_entries_for_config_entry(entity_registry, entry.entry_id)
-    assert len(entities) == 13
+    assert len(entities) == 16
     assert hass.states.get("switch.blocky_blocking").state == "on"
     assert hass.states.get("sensor.blocky_queries_24h").state == "10"
     assert hass.states.get("sensor.blocky_cache_hit_rate").state == "30.0"
+    assert hass.states.get("sensor.blocky_denylist_entries").state == "125"
+    assert hass.states.get("sensor.blocky_denylist_entries").attributes["groups"] == {
+        "ads": 100,
+        "tracker": 25,
+    }
+    assert hass.states.get("sensor.blocky_allowlist_entries").state == "4"
+    assert hass.states.get("sensor.blocky_query_types").state == "2"
+    assert hass.states.get("sensor.blocky_query_types").attributes["query_types"] == {
+        "A": 7,
+        "AAAA": 3,
+    }
 
     fake_client.disable_blocking = AsyncMock()
     await hass.services.async_call(

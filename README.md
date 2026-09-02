@@ -35,8 +35,12 @@ All paths can be changed during setup or reconfiguration. This supports reverse 
 The integration creates one Blocky device with:
 
 - Sensors for the 24-hour query summary and current cache entries.
+- Detail sensors for denylist and allowlist totals with per-group entry counts.
+- A query-types detail sensor with per-type 24-hour counts.
 - A switch for enabling and disabling blocking.
 - A button for refreshing lists.
+
+List detail values are loaded matcher-entry counts reported by Blocky, not the configured source URLs. Blocky does not expose those URLs through its REST API.
 
 The `blocky.disable_for_duration` action accepts:
 
@@ -58,6 +62,7 @@ The repository includes `blocky-dashboard.yaml`, a native Lovelace dashboard usi
 - A cache hit-rate gauge.
 - Tiles for all summary sensors.
 - History graphs for query activity and cache hit rate.
+- Tables for denylist/allowlist group counts and query-type counts.
 - Fixed 5-minute, 30-minute, and 1-hour pause buttons.
 
 To use it, place `blocky-dashboard.yaml` in the Home Assistant configuration directory and register it as a YAML dashboard. For example:

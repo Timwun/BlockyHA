@@ -12,90 +12,22 @@ views:
           24-hour resolver activity and blocking controls.
 
       - type: grid
-        columns: 3
+        columns: 2
         square: false
         cards:
           - type: tile
             entity: switch.blocky_blocking
             name: Blocking
             icon: mdi:shield-check
-          - type: tile
+          - type: button
             entity: button.blocky_refresh_lists
             name: Refresh lists
             icon: mdi:format-list-checks
-          - type: gauge
-            entity: sensor.blocky_cache_hit_rate
-            name: Cache hit rate
-            min: 0
-            max: 100
-            needle: true
-            severity:
-              green: 80
-              yellow: 50
-              red: 0
-
-      - type: markdown
-        content: |
-          ## Last 24 hours
-
-      - type: grid
-        columns: 4
-        square: false
-        cards:
-          - type: tile
-            entity: sensor.blocky_queries_24h
-          - type: tile
-            entity: sensor.blocky_forwarded_queries_24h
-          - type: tile
-            entity: sensor.blocky_cached_queries_24h
-          - type: tile
-            entity: sensor.blocky_local_queries_24h
-          - type: tile
-            entity: sensor.blocky_blocked_queries_24h
-          - type: tile
-            entity: sensor.blocky_filtered_queries_24h
-          - type: tile
-            entity: sensor.blocky_errors_24h
-          - type: tile
-            entity: sensor.blocky_dropped_queries_24h
-          - type: tile
-            entity: sensor.blocky_average_response_time
-          - type: tile
-            entity: sensor.blocky_cache_entries
-
-      - type: grid
-        columns: 2
-        square: false
-        cards:
-          - type: history-graph
-            title: Query activity
-            hours_to_show: 24
-            show_names: true
-            entities:
-              - entity: sensor.blocky_queries_24h
-                name: Queries
-              - entity: sensor.blocky_blocked_queries_24h
-                name: Blocked
-              - entity: sensor.blocky_cached_queries_24h
-                name: Cached
-          - type: history-graph
-            title: Cache hit rate
-            hours_to_show: 24
-            show_names: true
-            entities:
-              - entity: sensor.blocky_cache_hit_rate
-
-      - type: markdown
-        content: |
-          ## Pause blocking
-
-          Replace `YOUR_BLOCKY_CONFIG_ENTRY_ID` in the action cards below. The
-          config entry ID is visible in the Blocky integration URL in Settings.
-
-      - type: grid
-        columns: 3
-        square: false
-        cards:
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.blocky_refresh_lists
           - type: button
             name: Pause 5 minutes
             icon: mdi:timer-outline
@@ -123,6 +55,125 @@ views:
               data:
                 config_entry_id: YOUR_BLOCKY_CONFIG_ENTRY_ID
                 duration: 1h
+          - type: gauge
+            entity: sensor.blocky_cache_hit_rate
+            name: Cache hit rate
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 80
+              yellow: 50
+              red: 0
+
+      - type: markdown
+        content: |
+          ## Last 24 hours
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: tile
+            entity: sensor.blocky_queries_24h
+            vertical: true
+          - type: tile
+            entity: sensor.blocky_forwarded_queries_24h
+            vertical: true
+          - type: tile
+            entity: sensor.blocky_cached_queries_24h
+            vertical: true
+          - type: tile
+            entity: sensor.blocky_local_queries_24h
+            vertical: true
+          - type: tile
+            entity: sensor.blocky_blocked_queries_24h
+            vertical: true
+          - type: tile
+            entity: sensor.blocky_filtered_queries_24h
+            vertical: true
+          - type: tile
+            entity: sensor.blocky_errors_24h
+            vertical: true
+          - type: tile
+            entity: sensor.blocky_dropped_queries_24h
+            vertical: true
+          - type: tile
+            entity: sensor.blocky_average_response_time
+            vertical: true
+          - type: tile
+            entity: sensor.blocky_cache_entries
+            vertical: true
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: history-graph
+            title: Query activity
+            hours_to_show: 24
+            show_names: true
+            entities:
+              - entity: sensor.blocky_queries_24h
+                name: Queries
+              - entity: sensor.blocky_blocked_queries_24h
+                name: Blocked
+              - entity: sensor.blocky_cached_queries_24h
+                name: Cached
+          - type: history-graph
+            title: Cache hit rate
+            hours_to_show: 24
+            show_names: true
+            entities:
+              - entity: sensor.blocky_cache_hit_rate
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: markdown
+            content: |
+              ### Denylist groups
+
+              {% set groups = state_attr('sensor.blocky_denylist_entries', 'groups') or {} %}
+              {% if groups %}
+              | Group | Entries |
+              | --- | ---: |
+              {% for group, count in groups.items() %}
+              | `{{ group }}` | {{ count }} |
+              {% endfor %}
+              {% else %}
+              No denylist group data available.
+              {% endif %}
+          - type: markdown
+            content: |
+              ### Allowlist groups
+
+              {% set groups = state_attr('sensor.blocky_allowlist_entries', 'groups') or {} %}
+              {% if groups %}
+              | Group | Entries |
+              | --- | ---: |
+              {% for group, count in groups.items() %}
+              | `{{ group }}` | {{ count }} |
+              {% endfor %}
+              {% else %}
+              No allowlist group data available.
+              {% endif %}
+
+      - type: markdown
+        content: |
+          ### Query types
+
+          {% set types = state_attr('sensor.blocky_query_types', 'query_types') or {} %}
+          {% if types %}
+          | Type | Queries |
+          | --- | ---: |
+          {% for query_type, count in types.items() %}
+          | `{{ query_type }}` | {{ count }} |
+          {% endfor %}
+          {% else %}
+          No query type data available.
+          {% endif %}
 
       - type: markdown
         content: |

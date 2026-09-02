@@ -91,7 +91,10 @@
       "dropped": {"name": "Dropped queries (24h)"},
       "avg_response_ms": {"name": "Average response time"},
       "cache_hit_rate": {"name": "Cache hit rate"},
-      "cache_entries": {"name": "Cache entries"}
+      "cache_entries": {"name": "Cache entries"},
+      "denylist_entries": {"name": "Denylist entries"},
+      "allowlist_entries": {"name": "Allowlist entries"},
+      "query_types": {"name": "Query types"}
     },
     "switch": {
       "blocking": {"name": "Blocking"}
