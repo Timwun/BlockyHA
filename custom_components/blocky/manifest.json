@@ -1,0 +1,13 @@
+{
+  "domain": "blocky",
+  "name": "Blocky",
+  "version": "0.1.0",
+  "config_flow": true,
+  "documentation": "https://github.com/0xERR0R/blocky",
+  "issue_tracker": "https://github.com/0xERR0R/blocky/issues",
+  "codeowners": ["Timwun"],
+  "dependencies": [],
+  "requirements": [],
+  "integration_type": "service",
+  "iot_class": "local_polling"
+}

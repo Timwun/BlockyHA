@@ -1,0 +1,15 @@
+disable_for_duration:
+  target:
+    config_entry:
+      integration: blocky
+  fields:
+    duration:
+      required: true
+      example: 30m
+      selector:
+        text:
+    groups:
+      required: false
+      example: ads,tracker
+      selector:
+        text:

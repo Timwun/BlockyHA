@@ -1,0 +1,119 @@
+{
+  "title": "Blocky",
+  "config": {
+    "flow_title": "Blocky ({host})",
+    "step": {
+      "user": {
+        "title": "Connect to Blocky",
+        "description": "Enter the base URL of the Blocky HTTP API.",
+        "data": {
+          "base_url": "Base URL"
+        }
+      },
+      "settings": {
+        "title": "Blocky settings",
+        "description": "Authentication, polling, and endpoint paths are optional. Paths are relative to the base URL and may include a reverse-proxy prefix.",
+        "data": {
+          "username": "Username",
+          "password": "Password",
+          "scan_interval": "Polling interval (seconds)",
+          "status_path": "Blocking status path",
+          "enable_path": "Enable blocking path",
+          "disable_path": "Disable blocking path",
+          "lists_refresh_path": "Refresh lists path",
+          "stats_path": "Statistics path"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure Blocky",
+        "description": "Update the connection, authentication, polling, or endpoint settings.",
+        "data": {
+          "base_url": "Base URL",
+          "username": "Username",
+          "password": "Password",
+          "scan_interval": "Polling interval (seconds)",
+          "status_path": "Blocking status path",
+          "enable_path": "Enable blocking path",
+          "disable_path": "Disable blocking path",
+          "lists_refresh_path": "Refresh lists path",
+          "stats_path": "Statistics path"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reauthenticate Blocky",
+        "description": "The Blocky proxy rejected the configured credentials. Enter replacement HTTP Basic Auth credentials.",
+        "data": {
+          "username": "Username",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "invalid_url": "Enter a valid HTTP or HTTPS URL without credentials, a query, or a fragment.",
+      "invalid_auth": "The Blocky proxy rejected the credentials.",
+      "auth_pair": "Enter both a username and a password.",
+      "cannot_connect": "Unable to connect to Blocky.",
+      "invalid_status_path": "The blocking status path returned an HTTP error.",
+      "invalid_status_response": "The blocking status response is invalid.",
+      "invalid_stats_path": "The statistics path returned an HTTP error.",
+      "invalid_stats_response": "The statistics response is invalid.",
+      "invalid_endpoint": "Enter valid endpoint paths without queries or fragments."
+    },
+    "abort": {
+      "already_configured": "This Blocky instance is already configured.",
+      "reauth_successful": "Reauthentication was successful."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Blocky options",
+        "data": {
+          "scan_interval": "Polling interval (seconds)"
+        }
+      }
+    }
+  },
+  "device": {
+    "blocky": {
+      "name": "Blocky"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "queries": {"name": "Queries (24h)"},
+      "blocked": {"name": "Blocked queries (24h)"},
+      "cached": {"name": "Cached queries (24h)"},
+      "forwarded": {"name": "Forwarded queries (24h)"},
+      "local": {"name": "Local queries (24h)"},
+      "filtered": {"name": "Filtered queries (24h)"},
+      "errors": {"name": "Errors (24h)"},
+      "dropped": {"name": "Dropped queries (24h)"},
+      "avg_response_ms": {"name": "Average response time"},
+      "cache_hit_rate": {"name": "Cache hit rate"},
+      "cache_entries": {"name": "Cache entries"}
+    },
+    "switch": {
+      "blocking": {"name": "Blocking"}
+    },
+    "button": {
+      "refresh_lists": {"name": "Refresh lists"}
+    }
+  },
+  "services": {
+    "disable_for_duration": {
+      "name": "Disable blocking for a duration",
+      "description": "Temporarily disable Blocky blocking for a duration and optional groups.",
+      "fields": {
+        "duration": {
+          "name": "Duration",
+          "description": "Blocky Go duration such as 30m, 1h, or 5m30s."
+        },
+        "groups": {
+          "name": "Groups",
+          "description": "Optional comma-separated Blocky groups. Empty means all groups."
+        }
+      }
+    }
+  }
+}
