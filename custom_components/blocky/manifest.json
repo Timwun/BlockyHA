@@ -1,13 +1,13 @@
 {
   "domain": "blocky",
   "name": "Blocky",
-  "version": "0.1.0",
-  "config_flow": true,
-  "documentation": "https://github.com/0xERR0R/blocky",
-  "issue_tracker": "https://github.com/0xERR0R/blocky/issues",
-  "codeowners": ["Timwun"],
+  "codeowners": ["@Timwun"],
   "dependencies": [],
-  "requirements": [],
+  "config_flow": true,
+  "documentation": "https://github.com/Timwun/BlockyHA",
   "integration_type": "service",
-  "iot_class": "local_polling"
+  "issue_tracker": "https://github.com/Timwun/BlockyHA",
+  "iot_class": "local_polling",
+  "requirements": [],
+  "version": "0.1.1"
 }

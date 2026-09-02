@@ -33,6 +33,8 @@ from .coordinator import BlockyDataUpdateCoordinator, BlockyRuntimeData
 
 type BlockyConfigEntry = ConfigEntry[BlockyRuntimeData]
 
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
 
 SERVICE_SCHEMA = vol.Schema(
     {
@@ -103,7 +105,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: BlockyConfigEntry) -> bo
         device_info=DeviceInfo(
             identifiers={(DOMAIN, entry.entry_id)},
             name="Blocky",
-            manufacturer="0xERR0R",
+            manufacturer="Timwun",
             model="DNS proxy",
             configuration_url=client.base_url,
         ),

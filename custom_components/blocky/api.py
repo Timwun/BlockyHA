@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 import json
 import re
 from collections.abc import Mapping
 from typing import Any
 
 import aiohttp
-from aiohttp import encode_basic_auth
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
@@ -93,7 +93,12 @@ class BlockyClient:
         }
         username = str(config.get(CONF_USERNAME, ""))
         password = str(config.get(CONF_PASSWORD, ""))
-        self._auth_header = encode_basic_auth(username, password) if username else None
+        self._auth_header = (
+            "Basic "
+            + base64.b64encode(f"{username}:{password}".encode()).decode("ascii")
+            if username
+            else None
+        )
 
     def _url(self, path: str) -> str:
         """Join a configured path without discarding a reverse-proxy prefix."""

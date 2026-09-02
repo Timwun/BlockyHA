@@ -1,8 +1,11 @@
 disable_for_duration:
   target:
-    config_entry:
-      integration: blocky
   fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: blocky
     duration:
       required: true
       example: 30m
